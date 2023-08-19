@@ -42,16 +42,16 @@ app.get("/api/category",async(req,res) => {
 
 /**
  * @swagger
- * /api/getProducts/:categoryId:
+ * /api/getProducts/{categoryId}:
  *   get:
  *     summary: Get products according to category id. Category Id ranges from 0 to 10
  *     parameters:
- *       - name: categoryId
- *         in: path
+ *       - in: path
+ *         name: categoryId
  *         required: true
  *         description: Category ID
  *         schema:
- *            type: number
+ *            type: integer
  *     responses:
  *       200:
  *         description: Successful response
@@ -74,9 +74,9 @@ app.get("/api/getProducts/:categoryId",async(req,res) => {
 })
 /**
  * @swagger
- * /api/getSingle/:productId:
+ * /api/getSingle/{productId}:
  *   get:
- *     summary: Get details of a single product. 
+ *     summary: Get details of a single product. some productIds 64e0d903f9a98eefbb3e4e3b 64e0d906f9a98eefbb3e4e3e
  *     parameters:
  *       - name: productId
  *         in: path
@@ -126,7 +126,9 @@ app.get("/api/getSingle/:productId",async(req,res) => {
  *         description: Item Added/Removed
  *       500:
  *         description: Server error
- */
+ *       403:
+ *         description: UnAuthorized Access
+ */ 
 app.post("/api/addToCart",authorizeUser,async (req,res) => {
   try{
     let message;
@@ -183,6 +185,8 @@ app.post("/api/addToCart",authorizeUser,async (req,res) => {
  *         description: Item Added/Removed
  *       500:
  *         description: Server error
+ *  *    403:
+ *         description: UnAuthorized Access
  */
 app.get("/api/getCart" ,authorizeUser, async (req,res) => {
   try{
@@ -256,9 +260,8 @@ app.post("/api/register", async (req, res) => {
  * @swagger
  * /api/login:
  *   post:
- *     summary: Login a user
- *     parameters:
-  *     requestBody:
+ *     summary: Login a user. Try with c@gmail.com and password
+ *     requestBody:
  *       required: true
  *       content:
  *         application/json:
@@ -309,6 +312,8 @@ app.post("/api/login", async (req, res) => {
  *         description: trying to place order without any items in the cart
  *       200:
  *         description: Successfully Placed order
+ *  *    403:
+ *         description: UnAuthorized Access
  *       500:
  *         description: Server error
  */
